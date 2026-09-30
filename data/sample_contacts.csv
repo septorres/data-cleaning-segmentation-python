@@ -1,0 +1,8 @@
+Email,Empresa,Cargo,Atividade,Departamento,SetorInteresse
+ANA.SILVA@example.com,Padaria Horizonte,Proprietaria,Panificacao,Diretoria,Alimentos
+bruno.lima@example.com,Cafe Central,Gerente Comercial,Food Service,Comercial,Cafe
+carla.souza@example.com,Doce & Cia,Diretora,Confeitaria,Diretoria,Confeitaria
+ana.silva@example.com,Padaria Horizonte,Proprietaria,Panificacao,Diretoria,Alimentos
+invalido-sem-arroba,Empresa Teste,Assistente,Servicos,Administrativo,Outros
+diego.oliveira@example.com,Pizzaria Vila,Gerente de Operacoes,Pizzaria,Operacoes,Pizza
+elisa.martins@example.com,Sabor Sul,Compradora,Food Service,Compras,Alimentos
