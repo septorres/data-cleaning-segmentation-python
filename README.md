@@ -1,63 +1,67 @@
-# Data Cleaning & Segmentation with Python
+# Limpeza e segmentação de contatos com Python
 
-Projeto em Python para limpeza, padronização, deduplicação e segmentação de bases cadastrais.
+Este projeto é uma versão simplificada de uma rotina que uso em bases operacionais: receber um CSV com cadastros inconsistentes e gerar uma base mais organizada para análise ou campanhas.
 
-A ideia aqui é reproduzir, com dados fictícios, um tipo de trabalho que faço com frequência em bases operacionais: receber arquivos com formatos inconsistentes, corrigir os campos, eliminar duplicidades e gerar grupos prontos para análise ou campanhas.
+Os contatos são fictícios. O objetivo é mostrar as regras de tratamento e facilitar a reprodução do exemplo, não simular uma plataforma completa.
 
-## O que o pipeline faz
+## O que o script faz
 
-- padroniza nomes de colunas;
-- normaliza e-mails;
-- remove registros sem e-mail válido;
-- elimina duplicidades por e-mail;
-- trata empresa, cargo e segmento;
-- classifica cargos em proprietário, diretor, gerente ou outros;
-- cria flags de interesse por segmento;
-- gera um resumo com indicadores da base;
-- exporta uma base limpa em CSV.
+1. Padroniza os nomes das colunas e remove espaços desnecessários.
+2. Coloca os e-mails em letras minúsculas, filtra formatos inválidos e remove duplicidades por e-mail (mantendo o primeiro registro).
+3. Classifica cargos em proprietário, diretor, gerente ou outros.
+4. Marca interesses em alimentos, pizza, confeitaria e café com base nas colunas de setor e atividade.
+5. Exporta o CSV tratado e um resumo com indicadores.
+
+## Como executar
+
+Requisitos: Python 3.10+.
+
+```bash
+python -m venv .venv
+```
+
+Ative o ambiente virtual e instale a dependência:
+
+```bash
+pip install -r requirements.txt
+python src/pipeline.py
+```
+
+O script lê `data/sample_contacts.csv` e cria dois arquivos na pasta `output/`:
+
+- `contacts_clean.csv`: registros válidos, sem e-mails duplicados, com colunas de classificação;
+- `summary.csv`: quantidade de registros, empresas, cargos e interesses.
+
+Na base de exemplo, são **7 linhas de entrada** e **5 contatos na saída**: um registro tem e-mail inválido e outro é duplicado.
+
+## Executar os testes
+
+```bash
+pip install -r requirements-dev.txt
+python -m pytest
+```
+
+Os testes cobrem normalização, classificação de cargo, remoção de duplicados e validação das colunas esperadas.
 
 ## Estrutura
 
 ```text
-data/
-  sample_contacts.csv
-
-src/
-  pipeline.py
-
-output/
-  gerado ao executar o projeto
+data/sample_contacts.csv    # Dados fictícios
+src/pipeline.py             # Tratamento e geração dos arquivos
+tests/test_pipeline.py      # Testes das regras principais
+requirements.txt            # Dependências de execução
+requirements-dev.txt        # Dependências de teste
+output/                     # Arquivos gerados localmente
 ```
 
-## Como executar
+## Decisões e limitações
 
-Instale as dependências:
+- A deduplicação usa o e-mail como chave. Em bases reais, duas pessoas podem compartilhar um endereço; a regra precisa ser avaliada conforme o contexto.
+- A verificação de e-mail é **sintática e simplificada**. Ela não confirma que o endereço existe ou recebe mensagens.
+- A classificação de cargos é baseada em prefixos (por exemplo, `GER` para gerente), não em um modelo de linguagem.
+- Os caminhos dos arquivos são fixos para deixar o exemplo fácil de executar. Uma evolução seria aceitar caminhos como parâmetros.
+- Os indicadores mostram o resultado após a limpeza; não representam uma base corporativa real.
 
-```bash
-pip install -r requirements.txt
-```
+## Tecnologias
 
-Execute:
-
-```bash
-python src/pipeline.py
-```
-
-O script lê `data/sample_contacts.csv` e gera:
-
-- `output/contacts_clean.csv`
-- `output/summary.csv`
-
-## Exemplo de regras
-
-A classificação de cargo usa o início do texto normalizado:
-
-- `PROP...` → Proprietário
-- `DIR...` → Diretor
-- `GER...` → Gerente
-
-Os dados deste repositório são fictícios e servem apenas para demonstração do pipeline.
-
-## Stack
-
-Python 3 + pandas
+Python, pandas e pytest.
